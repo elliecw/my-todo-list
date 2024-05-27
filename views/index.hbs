@@ -1,0 +1,20 @@
+<h2 style="color: #244798;"> My Tasks
+  <a href="./todos/new"><i class="far fa-plus-square" style="color: #248798;"></i></a>
+</h2>
+<br>
+
+<ul class="list-group">
+  {{#each todos}}
+  <li class="p-3 mb-2 list-group-item list-group-item-action list-group-item-warning">
+    <div class="col-auto me-auto">
+      <input class="align-middle" type="checkbox" name="isDone" {{#if this.isDone}} checked {{/if}}>
+      <h4 class="d-inline ms-2 align-middle">
+        {{ this.name }}
+      </h4>
+      <form action="./todos/{{ this.id}}?_method=DELETE" method="POST" style="display:inline">
+        <button class="btn" type="submit"><i class="fas fa-trash-alt" style="color: #f2b378;"
+            type="submit"></i></button>
+      </form>
+    </div>
+    {{/each}}
+</ul>
