@@ -1,0 +1,27 @@
+{{!-- <form action="/todos/{{ todo.id }}?_method=DELETE" method="POST" class="d-inline">
+  <div class="input-group">
+    <div class="input-group-text">
+      <input type="checkbox" class="form-check-input mt-0" name="isDone" {{#if todo.isDone }} checked {{/if}} disabled>
+    </div>
+    <input class="form-control" type="text" placeholder="name" name="name" value="{{ todo.name }}" disabled>
+    <a class="btn btn-success" href="/todos/{{ todo.id }}/edit">edit</a>
+    <button class="btn btn-danger" type="submit">delete</button>
+  </div>
+</form> --}}
+
+<ul class="list-group">
+  <li class="p-3 mb-2 list-group-item list-group-item-action list-group-item-warning">
+    <div class="col-auto me-auto">
+      <input class="align-middle" type="checkbox" name="isDone" {{#if this.isDone}} checked {{/if}}>
+      <h4 class="d-inline ms-2 align-middle">
+        {{ todo.name }}
+      </h4>
+      <form action="/todos/{{ todo.id}}/edit" method="POST" style="display:inline">
+      <button class="btn" type="submit"><i class="fas fa-solid fa-pen" style="color: #f2b378;" type="submit"></i></button>
+      </form>
+      <form action="/todos/{{ todo.id}}?_method=DELETE" method="POST" style="display:inline">
+        <button class="btn" type="submit"><i class="fas fa-trash-alt" style="color: #f2b378;"
+            type="submit"></i></button>
+      </form>
+    </div>
+</ul>
