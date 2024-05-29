@@ -11,6 +11,7 @@ const PORT = 3000
 const db = require('./models')
 const Todo = db.Todo
 const User = db.User
+const { authenticator } = require('./middleware/auth')
 
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
@@ -25,6 +26,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 usePassport(app)
+
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
 
 app.get('/users/login', (req, res) => {
   res.render('login')
@@ -64,6 +71,8 @@ app.post('/users/register', (req, res) => {
   })
 })
 
+app.use(authenticator)
+
 app.get('/', (req, res) => {
   return Todo.findAll({
     raw: true,
@@ -71,6 +80,18 @@ app.get('/', (req, res) => {
   })
     .then((todos) => { return res.render('index', { todos: todos })})
     .catch((error) => { return res.status(422).json(error) })
+})
+
+app.get('/todos/new', (req, res) => {
+  return res.render('new')
+})
+
+app.post('/todos', (req, res) => {
+  const UserId = req.user.id
+  const name = req.body.name
+  return Todo.create({ name, UserId })
+    .then(() => res.redirect('/'))
+    .catch((error) => console.log(error))
 })
 
 app.get('/todos/:id', (req, res) => {
