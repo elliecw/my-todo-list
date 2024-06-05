@@ -95,9 +95,40 @@ app.post('/todos', (req, res) => {
 })
 
 app.get('/todos/:id', (req, res) => {
+  const UserId = req.user.id
   const id = req.params.id
-  return Todo.findByPk(id)
+  return Todo.findOne({ where: { id, UserId }})
     .then(todo => res.render('detail', { todo: todo.toJSON() }))
+    .catch(error => console.log(error))
+})
+
+app.get('/todos/:id/edit', (req, res) => {
+  const UserId = req.user.id
+  const id = req.params.id
+  return Todo.findOne({ where: { id, UserId }})
+    .then(todo => res.render('edit', { todo: todo.toJSON() }))
+    .catch(error => console.log(error))
+})
+app.post('/todos/:id/edit', (req, res) => {
+  const UserId = req.user.id
+  const id = req.params.id
+  const { name, isDone } = req.body
+  return Todo.findOne({ where: {id, UserId }})
+    .then(todo => {
+      todo.name = name
+      todo.isDone = isDone === 'on'
+      return todo.save()
+    })
+    .then(() => res.redirect(`/todos/${id}`))
+    .catch(error => console.log(error))
+})
+
+app.delete('/todos/:id', (req, res) => {
+  const UserId = req.user.id
+  const id = req.params.id
+  return Todo.findOne({ where: { id, UserId }})
+    .then(todo => todo.destroy())
+    .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 

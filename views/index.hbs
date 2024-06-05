@@ -11,6 +11,7 @@
       <h4 class="d-inline ms-2 align-middle">
         {{ this.name }}
       </h4>
+      <a class="btn" href="/todos/{{ this.id }}"><i class="fas fa-sticky-note" style="color: #f2b378;" type="submit"></i></a>
       <form action="/todos/{{ this.id}}?_method=DELETE" method="POST" style="display:inline">
         <button class="btn" type="submit"><i class="fas fa-trash-alt" style="color: #f2b378;"
             type="submit"></i></button>
