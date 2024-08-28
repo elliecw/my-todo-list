@@ -1,4 +1,4 @@
-# my-vocabulary
+# my-todo-list
 Build my own todo list by using MySQL & sequelize.
 
 ## Project pages
